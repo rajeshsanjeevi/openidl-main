@@ -56,7 +56,7 @@ jobs:
       - name: Prepare .npmrc
         id: npmrc
         run: |
-          sed -i 's|${GITHUB_TOKEN}|${{ secrets.PERSONAL_ACCESS_TOKEN }}|' ${{ env.IMAGE_NAME }}/.npmrc
+          sed -i 's|${GITHUB_TOKEN}|${{ secrets.PERSONAL_ACCESS_TOKEN }}|' ./.npmrc
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
