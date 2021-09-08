@@ -1,8 +1,5 @@
 name: Publish openidl mood-lisener-v1.0
 on:
-  pull_request:
-    branches:
-      - 'develop'
   push:
     branches:
       - 'develop'
