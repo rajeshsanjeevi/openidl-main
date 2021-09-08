@@ -52,7 +52,7 @@ jobs:
             type=sha
 
       - name: Setup NPM
-        uses: action/setup-node@v2
+        uses: actions/setup-node@v2
         with:
           registry-url: 'https://npm.pkg.github.com'
 
