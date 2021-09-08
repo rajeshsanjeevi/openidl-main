@@ -1,6 +1,6 @@
 name: Publish openidl mood-lisener-v1.0
 on:
-  push:
+  pull_request:
     branches:
       - 'develop'
     paths:
@@ -57,7 +57,9 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
 
       - name: Cat npmrc
-        run: cat .npmrc
+        run: |
+          cat .npmrc
+          cat /home/runner/work/_temp/.npmrc
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
