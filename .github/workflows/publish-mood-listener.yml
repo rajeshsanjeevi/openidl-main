@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: openidl-data-call-mood-listener
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NODE_AUTH_TOKEN: $${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  NPM_CONFIG_USERCONFIG: ${{ env.IMAGE_NAME }}/.npmrc
+  NPM_CONFIG_USERCONFIG: openidl-data-call-mood-listener/.npmrc
 
 defaults:
   run:
