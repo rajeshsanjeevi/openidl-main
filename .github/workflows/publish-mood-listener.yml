@@ -53,7 +53,7 @@ jobs:
       - name: Updated npmrc
         id: npmrc
         run: |
-          sed 's/${GITHUB_TOKEN}/${{ secrets.PERSONAL_ACCESS_TOKEN }}' ${{ env.IMAGE_NAME }}/.npmrc
+          sed -e 's/${GITHUB_TOKEN}/${{ secrets.PERSONAL_ACCESS_TOKEN }}' ${{ env.IMAGE_NAME }}/.npmrc
 
       - name: Cat npmrc
         run: |
