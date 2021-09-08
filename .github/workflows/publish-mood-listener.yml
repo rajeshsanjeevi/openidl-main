@@ -15,7 +15,7 @@ defaults:
     working-directory: openidl-data-call-mood-listener
 jobs:
   build-and-push-image-data-call-mood-listener:
-    if: github.event.pull_request.merged == true
+    #if: github.event.pull_request.merged == true
     #if: github.event_name == 'push'
     name: Build and Push - openIDL data call mood listener to GitHub Packages
     runs-on: ubuntu-latest
