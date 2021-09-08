@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: openidl-data-call-mood-listener
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 defaults:
   run:
