@@ -64,7 +64,7 @@ jobs:
           build-args: NPM_TOKEN = ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
-            ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          #  ${{ steps.meta.outputs.tags }}
+          #labels: ${{ steps.meta.outputs.labels }}
 
 
