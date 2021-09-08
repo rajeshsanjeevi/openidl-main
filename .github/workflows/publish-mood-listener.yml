@@ -13,6 +13,7 @@ defaults:
   run:
     shell: bash
     working-directory: openidl-data-call-mood-listener
+
 jobs:
   build-and-push-image-data-call-mood-listener:
     #if: github.event.pull_request.merged == true
@@ -42,7 +43,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: openidl-data-call-mood-listener
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
