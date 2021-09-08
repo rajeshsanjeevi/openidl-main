@@ -65,8 +65,6 @@ jobs:
           context: openidl-data-call-mood-listener
           push: ${{ github.event_name != 'pull_request' }}
           secrets: ${{ secrets.GITHUB_TOKEN }}
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:0.0.5
