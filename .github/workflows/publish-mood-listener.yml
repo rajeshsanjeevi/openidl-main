@@ -55,6 +55,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           registry-url: 'https://npm.pkg.github.com'
+          NODE_AUTH_TOKEN: $${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Cat npmrc
         run: |
