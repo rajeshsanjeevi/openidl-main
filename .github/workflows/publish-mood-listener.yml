@@ -49,14 +49,13 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
 
-      - name: Prepare npmrc file
-        id: npmrc
+      - name: Setup nodejs
+        id: nodejs
         uses: actions/setup-node@v2
         with:
           registry-url: 'https://npm.pkg.github.com'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        - run: echo "npmrc file prepared
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
