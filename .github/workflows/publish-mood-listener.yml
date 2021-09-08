@@ -41,6 +41,15 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Prepare npmrc file
+        id: npmrc
+        uses: actions/setup-node@v2
+        with:
+          - registry-url: 'https://npm.pkg.github.com'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        - run: echo "npmrc file prepared
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
