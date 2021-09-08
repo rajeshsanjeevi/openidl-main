@@ -1,0 +1,37 @@
+{
+  "name": "openidl-mongo-utilities",
+  "version": "1.0.3",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --exit",
+    "convertMongoTextToJson": "node convertMongoTextToJson.js"
+  },
+  "publishConfig": {
+    "registry": "https://artifactory.aaisdirect.com/artifactory/api/npm/npm-local/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.aaisdirect.com:openidl/openidl-mongo-utilities.git"
+  },
+  "dependencies": {
+    "deep-equals": "0.0.2",
+    "json-diff": "^0.5.4",
+    "json2csv": "^5.0.6",
+    "log4js": "^4.3.2",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.10.13",
+    "openidl-mapper": "file:../openidl-mapper",
+    "safe-eval": "^0.4.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.3",
+    "nyc": "15.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

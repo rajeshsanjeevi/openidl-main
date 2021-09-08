@@ -1,0 +1,44 @@
+{
+  "name": "app",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "start": "NODE_CONFIG_DIR=./server/config node server/server.js",
+    "dev": "cross-env NODE_CONFIG_DIR=./server/config nodemon server/server.js",
+    "lint": "eslint .",
+    "lintfix": "eslint --fix .",
+    "test": "mocha --timeout 600000 --exit",
+    "dev-test": "mocha --timeout 600000 --exit"
+  },
+  "dependencies": {
+    "@openidl-org/openidl-common-lib": "^0.5.4",
+    "@sendgrid/mail": "^7.2.1",
+    "body-parser": "^1.18.3",
+    "config": "^2.0.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "crypto": "^1.0.1",
+    "express": "~4.16.0",
+    "express-session": "^1.15.1",
+    "helmet": "3.21.2",
+    "http-errors": "~1.6.2",
+    "js-yaml": "^3.12.0",
+    "log4js": "^4.3.2",
+    "node-fetch": "^2.6.1",
+    "sort-json-array": "^0.1.7",
+    "swagger-ui-express": "^3.0.10",
+    "uuid": "^3.3.2"
+  },
+  "engines": {
+    "node": "14.17.x",
+    "npm": "6.14.x"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "cross-env": "^5.2.0",
+    "mocha": "^8.4.0",
+    "nodemon": "^2.0.12",
+    "mock-req-res": "1.0.4",
+    "sinon": "7.2.7"
+  }
+}

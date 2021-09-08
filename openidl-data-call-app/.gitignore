@@ -1,0 +1,22 @@
+node_modules/**
+
+# Tests
+.nyc_output/**
+
+# IDE
+.vscode/**
+
+# Archives
+helm-archive/**
+
+#credentials
+server/config/local-cognito-config.json
+server/config/local-cloudant-config.json
+server/config/openidl-ui-client-id.json
+server/config/connection-profile.json
+server/config/local-appid-config.json
+server/config/local-mongo-config.json
+server/config/local-kvs-config.json
+server/config/local-vault-config.json
+server/config/local-certmanager-config.json
+

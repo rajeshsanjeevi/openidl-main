@@ -1,0 +1,10 @@
+node_modules/**
+
+# IDE
+.vscode/**
+
+#credentials
+server/config/local-cloudant-config.json
+server/config/local-kvs-config.json
+server/config/connection-profile.json
+

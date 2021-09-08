@@ -1,0 +1,9 @@
+node_modules
+output.csv
+output.json
+testCovidData.json
+testCovidDataSDMA.json
+COVID_19_BI_ExtractionPattern.json
+covid-output/**
+server/config/**
+test/data/exported-from-mongodb

@@ -1,0 +1,251 @@
+openapi: '3.0.0'
+info:
+ title: 'HIG User Enrollment API(s) '
+ version: '1.0.0'
+ description: >-
+   > This interface enables the testers to quickly test the API(s) developed by the Dev Team. 
+   If you dont have your token  then first generate the token using 'app-user-login' for testing the API(S).
+paths:
+  "/openidl/api/app-user-login":
+    post:
+      tags:
+        - app-user-login
+      description: User log-in with Identity Provider.
+      summary: User log-in with Identity Provider.
+      responses:
+        '200':
+          description: 'User log-in with Identity Provide.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userLogin'
+        required: true
+      security:
+        - bearerAuth: []
+
+  "/openidl/api/app-user-enrollment":
+    post:
+      tags:
+        - app-user-creation
+      description: Registers app user into identity provider.
+      summary: Registers app user into identity provider.
+      responses:
+        '200':
+          description: 'Registers app user into identity provider'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userData'
+        required: true
+      security:
+        - bearerAuth: []
+
+  "/openidl/api/app-user-attributes":
+    post:
+      tags:
+        - app-user-attributes
+      description: Updates app user attributes.
+      summary: Updates app user attributes.
+      responses:
+        '200':
+          description: 'Updates app user attributes'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userAttributeData'
+        required: true
+      security:
+        - bearerAuth: []
+
+  "/openidl/api/fabric-user-enrollment":
+    post:
+      tags:
+        - fabric-user-creation
+      description: Enrolls fabric user into IBP.
+      summary: Enrolls fabric user into IBP.
+      responses:
+        '200':
+          description: 'Enrolls fabric user into IBP'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fabricUserData'
+        required: true
+      security:
+      - bearerAuth: []
+
+components:
+  schemas:
+    "userLogin":
+      type: object
+      properties:
+        username:
+          type: string
+          example: "test_username"
+        password:
+          type: string
+          example: "test_password"
+    "userData":
+      type: object
+      properties: 
+        users: 
+          type: "array"
+          items: 
+            type: "object"
+            properties: 
+              username: 
+                type: "string"
+                example: "test_user1"
+              password: 
+                type: "string"
+                example: "test_user1@blockchain"
+              familyName: 
+                type: "string"
+                example: "test"
+              givenName: 
+                type: "string"
+                example: "user1"
+              email: 
+                type: "string"
+                example: "test_user1@regulator.com"
+              attributes: 
+                required: 
+                  - "custom:stateName"
+                  - "custom:stateCode"
+                  - "custom:role"
+                  - "custom:organizationId"
+                properties: 
+                  custom:stateName: 
+                    type: "string"
+                    example: "Alabama"
+                  custom:stateCode: 
+                    type: "string"
+                    example: "01"
+                  custom:role: 
+                    type: "string"
+                    example: "regulator"
+                  custom:organizationId: 
+                    type: "string"
+                    example: "1235"
+                type: "object"
+    "userAttributeData":
+      type: object
+      properties: 
+        users: 
+          type: "array"
+          items: 
+            type: "object"
+            properties: 
+              username: 
+                type: "string"
+                example: "test_user1"
+              familyName: 
+                type: "string"
+                example: "test"
+              givenName: 
+                type: "string"
+                example: "user1"
+              email: 
+                type: "string"
+                example: "test_user1@regulator.com"
+              attributes: 
+                required: 
+                  - "custom:stateName"
+                  - "custom:stateCode"
+                  - "custom:role"
+                  - "custom:organizationId"
+                properties: 
+                  custom:stateName: 
+                    type: "string"
+                    example: "Alabama"
+                  custom:stateCode: 
+                    type: "string"
+                    example: "01"
+                  custom:role: 
+                    type: "string"
+                    example: "regulator"
+                  custom:organizationId: 
+                    type: "string"
+                    example: "1235"
+                type: "object"
+    "fabricUserData":
+      type: object
+      properties:
+        options:
+          type: string
+          example: "register"
+        users:
+          type: array
+          items:
+            $ref: '#/definitions/fabricUser'
+    "postResponse":
+      type: object
+      description: This represents transaction submission response format
+      properties:
+        success:
+          type: string
+          example: "true"
+        message:
+          type: string
+          example: "OK"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+definitions:
+  fabricUser:
+    type: object
+    properties:
+      org:
+        type: string
+        example: "higmsp"
+      user:
+        type: string
+        example: "openidl-aais_config_Htest2"
+      pw:
+        type: string
+        example: "password"
+      affiliation:
+        type: string
+        example: "org1"
+      role:
+        type: string
+        example: "client"
+      attrs:
+        type: array
+        items:
+          $ref: '#/definition/attr'  
+definition:
+  attr:
+    type: object
+    properties:
+      name: 
+        type: string
+        example: "orgType"
+      value:
+        type: string
+        example: "carrier"
+      ecert:
+        type: boolean
+        example: true

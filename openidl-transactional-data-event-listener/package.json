@@ -1,0 +1,37 @@
+{
+  "name": "transactional-data-event-listener",
+  "version": "1.0.1",
+  "description": "This component is responsible for processing transactional data available chaincode events.",
+  "main": "server/index.js",
+  "author": "bipeen",
+  "license": "ISC",
+  "scripts": {
+    "start": "NODE_CONFIG_DIR=./server/config node server/index.js",
+    "dev": "cross-env NODE_CONFIG_DIR=./server/config nodemon server/index.js",
+    "test": "NODE_CONFIG_DIR=./server/config nyc mocha --timeout 600000 --exit",
+    "dev-test": "cross-env NODE_CONFIG_DIR=./server/config nyc mocha --timeout 600000 --exit"
+  },
+  "dependencies": {
+    "@cloudant/cloudant": "^3.0.1",
+    "@sendgrid/mail": "^7.2.1",
+    "aws-sdk": "2.474.0",
+    "config": "^2.0.1",
+    "express": "~4.16.0",
+    "log4js": "^4.3.2",
+    "object-sizeof": "1.4.0",
+    "mongodb": "^3.6.10",
+    "@openidl-org/openidl-common-lib": "^0.5.2"
+  },
+  "engines": {
+    "node": "14.17.x",
+    "npm": "6.14.x"
+  },
+  "devDependencies": {
+    "chai": "4.2.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^8.4.0",
+    "nodemon": "^2.0.12",
+    "nyc": "^15.1.0",
+    "sinon": "7.2.7"
+  }
+}
