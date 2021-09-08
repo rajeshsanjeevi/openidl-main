@@ -51,6 +51,13 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
 
+      - name: Setup NPM
+        uses: action/setup-node@v2
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Cat npmrc
+        run: cat .npmrc
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
