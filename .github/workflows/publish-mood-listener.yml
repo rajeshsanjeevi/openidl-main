@@ -56,10 +56,9 @@ jobs:
         run: |
           sed -i 's|${GITHUB_TOKEN}|${{ secrets.PERSONAL_ACCESS_TOKEN }}|' ./.npmrc
 
-      - name: Current Date & Time
+      - name: Build Date&Time
         id: datetime
-        run: echo "$(date "+%Y-%m-%d-%T")" > $DATE
-
+        run: echo "BUILD_DATETIME=$(date +%Y-%m-%d-%T)" >> ${GITHUB_ENV}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -69,7 +68,7 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.DATE }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.BUILD_DATETIME }}
           labels: ${{ steps.meta.outputs.labels }}
 
 
