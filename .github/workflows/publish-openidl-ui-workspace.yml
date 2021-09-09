@@ -47,12 +47,23 @@ jobs:
         run: |
           sed -i 's|${GITHUB_TOKEN}|${{ secrets.ACCESS_TOKEN }}|' ./.npmrc
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image for openidl-ui (aais)
         uses: docker/build-push-action@v2
         with:
           context: openidl-ui-workspace
           build-args: PROJECT=aais
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-aais:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-aais:${{ github.run_number }}
+
+      - name: Build and push Docker image for openidl-carrier-ui (carrier)
+        uses: docker/build-push-action@v2
+        with:
+          context: openidl-ui-workspace
+          build-args: PROJECT=carrier
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-carrier:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-carrier:${{ github.run_number }}
+
