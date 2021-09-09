@@ -11,7 +11,7 @@ env:
   IMAGE_NAME: openidl-data-call-mood-listener
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: $${{ secrets.ACCESS_TOKEN }}
-  BRANCH: ${GITHUB_REF#refs/heads/}
+  BRANCH: ${github.base_ref}
   COMMIT_ID: $(git rev-parse --short "$GITHUB_SHA")
 
 defaults:
@@ -60,6 +60,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:#${{ github.run_number }}-${{ github.base_ref }}-${{ env.BUILD_DATETIME }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:#${{ github.run_number }}-${{ env.BRANCH }}-${{ env.BUILD_DATETIME }}
 
 
