@@ -1,28 +1,25 @@
-name: Publish openidl mood-lisener-v1.0
+name: Publish openidl utilities-v1.0
 on:
   push:
     branches:
       - 'develop'
-
     paths:
-      - 'openidl-data-call-mood-listener/**'
+      - 'openidl-utilities/**'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: openidl-data-call-mood-listener
+  IMAGE_NAME: openidl-utilities
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  NPM_TOKEN: $${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  NPM_TOKEN: $${{ secrets.ACCESS_TOKEN }}
 
 defaults:
   run:
     shell: bash
-    working-directory: openidl-data-call-mood-listener
+    working-directory: openidl-utilities
 
 jobs:
-  build-and-push-image-data-call-mood-listener:
-    #if: github.event.pull_request.merged == true
-    #if: github.event_name == 'push'
-    name: Build and Push - openIDL data call mood listener to GitHub Packages
+  build-and-push-image-utilities:
+    name: Build and Push - openIDL utilities to GitHub Packages
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -41,20 +38,14 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=schedule,pattern={{date 'YYYYMMDD'}}
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
 
       - name: Prepare .npmrc
         id: npmrc
         run: |
-          sed -i 's|${GITHUB_TOKEN}|${{ secrets.PERSONAL_ACCESS_TOKEN }}|' ./.npmrc
+          sed -i 's|${GITHUB_TOKEN}|${{ secrets.ACCESS_TOKEN }}|' ./.npmrc
 
       - name: Build Date&Time
         id: datetime
@@ -63,14 +54,11 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
-          context: openidl-data-call-mood-listener
+          context: openidl-utilities
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.BUILD_DATETIME }}
           labels: ${{ steps.meta.outputs.labels }}
-
-
-
 
