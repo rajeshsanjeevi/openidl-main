@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: openidl-ui-workspace
+  IMAGE_NAME: openidl
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: $${{ secrets.ACCESS_TOKEN }}
 
@@ -54,8 +54,8 @@ jobs:
           build-args: PROJECT=aais
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-aais:latest
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-aais:${{ github.run_number }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-ui:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-ui:${{ github.run_number }}
 
       - name: Build and push Docker image for openidl-carrier-ui (carrier)
         uses: docker/build-push-action@v2
@@ -64,6 +64,6 @@ jobs:
           build-args: PROJECT=carrier
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-carrier:latest
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-carrier:${{ github.run_number }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-carrier-ui:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}-carrier-ui:${{ github.run_number }}
 
