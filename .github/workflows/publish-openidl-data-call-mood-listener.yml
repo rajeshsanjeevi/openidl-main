@@ -64,6 +64,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:#${{ github.run_number }}-${{ env.BRANCH }}-${{ env.COMMIT_ID }}-${{ env.BUILD_DATETIME }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}-${{ env.BRANCH }}-${{ env.COMMIT_ID }}-${{ env.BUILD_DATETIME }}
 
 
