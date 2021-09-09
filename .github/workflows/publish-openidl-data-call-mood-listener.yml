@@ -11,6 +11,8 @@ env:
   IMAGE_NAME: openidl-data-call-mood-listener
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: $${{ secrets.ACCESS_TOKEN }}
+  BRANCH: ${GITHUB_REF#refs/heads/}
+  COMMIT_ID: $(git rev-parse --short "$GITHUB_SHA")
 
 defaults:
   run:
@@ -47,6 +49,10 @@ jobs:
         run: |
           sed -i 's|${GITHUB_TOKEN}|${{ secrets.ACCESS_TOKEN }}|' ./.npmrc
 
+      - name: Build Date&Time
+        id: datetime
+        run: echo "BUILD_DATETIME=$(date +%m%d%Y%H%M)" >> ${GITHUB_ENV}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
@@ -54,6 +60,6 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}-${{ env.BRANCH}}-${{ env.COMMIT_ID }}-${{ env.BUILD_DATETIME }}
 
 
