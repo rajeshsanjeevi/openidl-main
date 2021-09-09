@@ -42,10 +42,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Prepare .npmrc
-        id: npmrc
-        run: |
-          sed -i 's|${GITHUB_TOKEN}|${{ secrets.ACCESS_TOKEN }}|' ./.npmrc
+     # - name: Prepare .npmrc
+     #   id: npmrc
+     #   run: |
+     #     sed -i 's|${GITHUB_TOKEN}|${{ secrets.ACCESS_TOKEN }}|' ./.npmrc
 
       - name: Build Date&Time
         id: datetime
