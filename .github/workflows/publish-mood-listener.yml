@@ -66,6 +66,9 @@ jobs:
           build-args: NPM_TOKEN = ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.runNumber }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.runId }}
 
 
         #    ${{ steps.meta.outputs.tags }}
