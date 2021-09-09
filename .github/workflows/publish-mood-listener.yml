@@ -58,9 +58,8 @@ jobs:
 
       - name: Current Date & Time
         id: datetime
-        run: echo "::set-output name=date::$(date "+%Y-%m-%d-%T")"
-        env:
-          TAG_NAME: ${{ steps.date.outputs.date }}
+        run: echo "$(date "+%Y-%m-%d-%T")" > $DATE
+
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
@@ -70,7 +69,7 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.TAG_NAME }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/${{ env.IMAGE_NAME }}:${{ env.DATE }}
           labels: ${{ steps.meta.outputs.labels }}
 
 
