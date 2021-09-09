@@ -52,7 +52,7 @@ jobs:
         run: echo "BUILD_DATETIME=$(date +%m%d%Y%H%M)" >> ${GITHUB_ENV}
 
       - name: Check branch-name
-        run: echo "BRANCH=${{ github.base_ref }}" >> ${GITHUB_ENV}
+        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
 
       - name: Check commit-id
         run: echo "COMMIT_ID=$(git rev-parse --short "$GITHUB_SHA")" >> ${GITHUB_ENV}
