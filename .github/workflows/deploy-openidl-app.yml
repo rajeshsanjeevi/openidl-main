@@ -54,7 +54,7 @@ jobs:
 
     - name: Setup kube-config
       run: |
-        aws eks update-kubeconfig --region ${{ github.event.inputs.eks_region }} --name: ${{ github.event.inputs.eks_cluster_name }}
+        aws eks update-kubeconfig --region ${{ github.event.inputs.eks_region }} --name ${{ github.event.inputs.eks_cluster_name }}
 
     - name: Helm upgrade
       run: |
