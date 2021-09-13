@@ -1,91 +1,60 @@
-# This workflow installs the latest version of Terraform CLI and configures the Terraform CLI configuration file
-# with an API token for Terraform Cloud (app.terraform.io). On pull request events, this workflow will run
-# `terraform init`, `terraform fmt`, and `terraform plan` (speculative plan via Terraform Cloud). On push events
-# to the main branch, `terraform apply` will be executed.
-#
-# Documentation for `hashicorp/setup-terraform` is located here: https://github.com/hashicorp/setup-terraform
-#
-# To use this workflow, you will need to complete the following setup steps.
-#
-# 1. Create a `main.tf` file in the root of this repository with the `remote` backend and one or more resources defined.
-#   Example `main.tf`:
-#     # The configuration for the `remote` backend.
-#     terraform {
-#       backend "remote" {
-#         # The name of your Terraform Cloud organization.
-#         organization = "example-organization"
-#
-#         # The name of the Terraform Cloud workspace to store Terraform state files in.
-#         workspaces {
-#           name = "example-workspace"
-#         }
-#       }
-#     }
-#
-#     # An example resource that does nothing.
-#     resource "null_resource" "example" {
-#       triggers = {
-#         value = "A example resource that does nothing!"
-#       }
-#     }
-#
-#
-# 2. Generate a Terraform Cloud user API token and store it as a GitHub secret (e.g. TF_API_TOKEN) on this repository.
-#   Documentation:
-#     - https://www.terraform.io/docs/cloud/users-teams-organizations/api-tokens.html
-#     - https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets
-#
-# 3. Reference the GitHub secret in step using the `hashicorp/setup-terraform` GitHub Action.
-#   Example:
-#     - name: Setup Terraform
-#       uses: hashicorp/setup-terraform@v1
-#       with:
-#         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
-name: 'Terraform'
-
+name: Manual triggered workflow - Deploy openidl app-v1.0
 on:
-  push:
-    branches:
-    - main
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      node_type:
+        description: "Enter node type"
+        required: true
+        default: ""
+      branch:
+        description: "Name of the github branch"
+        required: true
+        default: ""
+      env:
+        description: "Environment type to deploy"
+        required: true
+        default: ""
+      eks_region:
+        description: "The AWS region of EKS"
+        required: true
+        default: ""
+      eks_cluster_name:
+        description: "Name of the EKS cluster"
+        required: true
+        default: ""
+
+defaults:
+  run:
+    shell: bash
+    #working-directory: openidl-k8s
 
 jobs:
-  terraform:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
-    environment: production
+  deploy-openidl-app-aais:
+    environment: aais_dev
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
-    defaults:
-      run:
-        shell: bash
+    if: ${{ github.event.inputs.node_type }} == 'aais' && ${{ github.event.inputs.env }} == 'dev'
+    name: Deploy openidl application for node AAIS in DEV
+    runs-on: ubuntu-latest
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+    - name: Configure AWS CLI with credentials
+      uses: aws-actions/configure-aws-credentials@230d25f14e841bc8e06b5f4ff89ccd6989fc1d71
       with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        aws-access-key-id: ${{ secrets.eks_admin_access_key }}
+        aws-secret-access-key: ${{ secrets.eks_admin_secret_key }}
+        aws-region: ${{ github.event.inputs.eks_region }}
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
+    - name: Checkout Code
+      uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
 
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -check
+    - name: Install Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: v3.6.3
 
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: terraform plan
-
-      # On push to main, build or change infrastructure according to Terraform configuration files
-      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: terraform apply -auto-approve
+    - name: Setup kube-config
+      run: |
+        aws eks update-kubeconfig --region ${{ github.event.inputs.eks_region }} --name: ${{ github.event.inputs.eks_cluster_name }}
+    - name: Helm upgrade
+      run: |
+        helm upgrade dev-aais ./openidl-k8s -f ./openidl-k8s/global-values-aais.yaml -n openidl --set global.datacallapp.ingressenabled=true --set global.utilities.ingressenabled=true --set global.ui.ingressenabled=true --set global.insurancedatamanager.ingressenabled=true --set global.configpath=config-aais-dev
