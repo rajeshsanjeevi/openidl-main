@@ -1,4 +1,4 @@
-name: Manual triggered workflow - Deploy openidl app-v1.0
+name: Manual-Deploy openidl app-v1.0
 on:
   workflow_dispatch:
     inputs:
@@ -26,7 +26,7 @@ defaults:
 
 jobs:
   deploy-openidl-app:
-    environment: ${{ github.event.inputs.node_type }}_${{ github.event.inputs.env }}
+   #environment: ${{ github.event.inputs.node_type }}_${{ github.event.inputs.env }}
 
     name: Deploy openidl application for node ${{ github.event.inputs.node_type }}-${{ github.event.inputs.env }}
     runs-on: ubuntu-latest
@@ -57,10 +57,4 @@ jobs:
 
     - name: Deploy open-idl app using helm
       run: |
-        helm upgrade dev-aais ./openidl-k8s -f ./openidl-k8s/global-values-${{ github.event.inputs.node_type }}.yaml -n openidl --set global.datacallapp.ingressenabled=true --set global.utilities.ingressenabled=true --set global.ui.ingressenabled=true --set global.insurancedatamanager.ingressenabled=true --set global.configpath=config-${{ github.event.inputs.node_type }}-${{ github.event.inputs.env }}
-
-
-
-
-
-
+        helm upgrade ${{ github.event.inputs.env }-${{ github.event.inputs.node_type } ./openidl-k8s -f ./openidl-k8s/global-values-${{ github.event.inputs.node_type }}.yaml -n openidl --set global.datacallapp.ingressenabled=true --set global.utilities.ingressenabled=true --set global.ui.ingressenabled=true --set global.insurancedatamanager.ingressenabled=true --set global.configpath=config-${{ github.event.inputs.node_type }}-${{ github.event.inputs.env }}
