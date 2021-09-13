@@ -3,23 +3,19 @@ on:
   workflow_dispatch:
     inputs:
       node_type:
-        description: "Enter node type"
-        required: true
-        default: ""
-      branch:
-        description: "Name of the github branch"
+        description: "Node type (aais|analytics|carrier)"
         required: true
         default: ""
       env:
-        description: "Environment type to deploy"
+        description: "Environment Type (dev|test|prod)"
         required: true
         default: ""
       eks_region:
-        description: "The AWS region of EKS"
+        description: "AWS region of EKS cluster"
         required: true
         default: ""
       eks_cluster_name:
-        description: "Name of the EKS cluster"
+        description: "EKS cluster name"
         required: true
         default: ""
 
@@ -30,7 +26,7 @@ defaults:
 
 jobs:
   deploy-openidl-app-aais:
-    environment: aais_dev
+    #environment: aais_dev
 
     if: ${{ github.event.inputs.node_type }} == 'aais' && ${{ github.event.inputs.env }} == 'dev'
     name: Deploy openidl application for node AAIS in DEV
@@ -43,6 +39,10 @@ jobs:
         aws-access-key-id: ${{ secrets.eks_admin_access_key }}
         aws-secret-access-key: ${{ secrets.eks_admin_secret_key }}
         aws-region: ${{ github.event.inputs.eks_region }}
+        role-to-assume: ${{ secrets.eks_admin_role }}
+        role-external-id: aais-terraform
+        role-duration-seconds: 3600 # session valid for 30 minutes
+        role-session-name: terraform-session
 
     - name: Checkout Code
       uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
