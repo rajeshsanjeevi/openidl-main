@@ -1,4 +1,4 @@
-name: Manual triggered workflow - Deploy openidl app-v1.0
+name: Manual-Deploy openidl app-v1.0
 on:
   workflow_dispatch:
     inputs:
@@ -25,24 +25,23 @@ defaults:
     #working-directory: openidl-k8s
 
 jobs:
-  deploy-openidl-app-aais:
-    #environment: aais_dev
+  deploy-openidl-app:
+   #environment: ${{ github.event.inputs.node_type }}_${{ github.event.inputs.env }}
 
-    if: ${{ github.event.inputs.node_type }} == 'aais' && ${{ github.event.inputs.env }} == 'dev'
-    name: Deploy openidl application for node AAIS in DEV
+    name: Deploy openidl application for node ${{ github.event.inputs.node_type }}-${{ github.event.inputs.env }}
     runs-on: ubuntu-latest
 
     steps:
     - name: Configure AWS CLI with credentials
       uses: aws-actions/configure-aws-credentials@230d25f14e841bc8e06b5f4ff89ccd6989fc1d71
       with:
-        aws-access-key-id: ${{ secrets.aais_access_key}}
-        aws-secret-access-key: ${{ secrets.aais_secret_key }}
+        aws-access-key-id: ${{ secrets.eks_admin_access_key }}
+        aws-secret-access-key: ${{ secrets.eks_admin_secret_key }}
         aws-region: ${{ github.event.inputs.eks_region }}
-        role-to-assume: ${{ secrets.aais_role }}
-        role-external-id: aais-terraform
+        role-to-assume: ${{ secrets.eks_admin_role }}
+        role-external-id: ${{ secrets.eks_external_id }}
         role-duration-seconds: 3600 # session valid for 30 minutes
-        role-session-name: GitHubActions
+        role-session-name: githubactions-session
 
     - name: Checkout Code
       uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
@@ -54,7 +53,7 @@ jobs:
 
     - name: Setup kube-config
       run: |
-        aws eks update-kubeconfig --region ${{ github.event.inputs.eks_region }} --name ${{ github.event.inputs.eks_cluster_name }}
-    - name: Helm upgrade
+        aws eks update-kubeconfig --region ${{ github.event.inputs.eks_region }} --name: ${{ github.event.inputs.eks_cluster_name }}
+    - name: Deploy open-idl app using helm
       run: |
-        helm upgrade dev-aais ./openidl-k8s -f ./openidl-k8s/global-values-aais.yaml -n openidl --set global.datacallapp.ingressenabled=true --set global.utilities.ingressenabled=true --set global.ui.ingressenabled=true --set global.insurancedatamanager.ingressenabled=true --set global.configpath=config-aais-dev
+        helm upgrade ${{ github.event.inputs.env }-${{ github.event.inputs.node_type } ./openidl-k8s -f ./openidl-k8s/global-values-${{ github.event.inputs.node_type }}.yaml -n openidl --set global.datacallapp.ingressenabled=true --set global.utilities.ingressenabled=true --set global.ui.ingressenabled=true --set global.insurancedatamanager.ingressenabled=true --set global.configpath=config-${{ github.event.inputs.node_type }}-${{ github.event.inputs.env }}
