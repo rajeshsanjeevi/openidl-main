@@ -39,10 +39,10 @@ jobs:
         aws-access-key-id: ${{ secrets.eks_admin_access_key }}
         aws-secret-access-key: ${{ secrets.eks_admin_secret_key }}
         aws-region: ${{ github.event.inputs.eks_region }}
-        #role-to-assume: ${{ secrets.eks_admin_role }}
-        #role-external-id: aais-terraform
-        #role-duration-seconds: 3600 # session valid for 30 minutes
-        #role-session-name: terraform-session
+        role-to-assume: arn:aws:iam::577645632856:role/aais-tf-automation
+        role-external-id: aais-terraform
+        role-duration-seconds: 3600 # session valid for 30 minutes
+        role-session-name: GitHubActions
 
     - name: Checkout Code
       uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
