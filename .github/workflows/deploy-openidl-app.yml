@@ -36,10 +36,10 @@ jobs:
     - name: Configure AWS CLI with credentials
       uses: aws-actions/configure-aws-credentials@230d25f14e841bc8e06b5f4ff89ccd6989fc1d71
       with:
-        aws-access-key-id: ${{ secrets.eks_admin_access_key }}
-        aws-secret-access-key: ${{ secrets.eks_admin_secret_key }}
+        aws-access-key-id: ${{ secrets.aais_access_key}}
+        aws-secret-access-key: ${{ secrets.aais_secret_key }}
         aws-region: ${{ github.event.inputs.eks_region }}
-        role-to-assume: arn:aws:iam::577645632856:role/aais-tf-automation
+        role-to-assume: ${{ secrets.aais_role }}
         role-external-id: aais-terraform
         role-duration-seconds: 3600 # session valid for 30 minutes
         role-session-name: GitHubActions
