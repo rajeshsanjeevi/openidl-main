@@ -42,8 +42,7 @@ if [ $result -ne 0 ]; then
     exit 1
 fi
 rm -f /tmp/secrets.env
-echo ${url}, ${username}, ${password}, ${orgName}, ${vaultPath}
-./openidl-test-network/vault/pull-vault-config.sh -V ${url} -U ${username} -P ${password} -a ${CONFIG} -o ${orgName} -c ${CONFIG}
+./openidl-test-network/vault/pull-vault-config.sh -V ${url} -U ${username} -P ${password} -a ${APP} -o ${orgName} -c ${CONFIG}
 result=$?
 if [ $result -ne 0 ]; then
 	echo "Failed to retrieve credentials from VAULT"
