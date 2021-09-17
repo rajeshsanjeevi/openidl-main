@@ -28,7 +28,7 @@ checkOptions() {
 }
 action() {
 echo "Retrieve credentials from AWS secret manager"
-aws secretsmanager get-secret-value --secret-id ${SECRET_ID} --query SecretString --output text | jq -r 'to_entries|map("\(.key)=(.value)")|.[]' > /tmp/secrets.env
+aws secretsmanager get-secret-value --secret-id ${SECRET_ID} --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > /tmp/secrets.env
 result=$?
 if [ $result -ne 0 ]; then
 	echo "Failed to retrieve credentials from AWS secret manager"
