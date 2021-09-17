@@ -1,0 +1,6 @@
+url=http://vault.localhost.internal:8200
+username=aais
+password=password123
+vaultPath=fabric-kvs
+apiVersion=v1
+orgName=aais
