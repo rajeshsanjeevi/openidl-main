@@ -16,7 +16,7 @@ checkOptions() {
 }
 action() {
 echo "Install utilities"
-yum install unzip wget tar gzip jq which sed tar -y
+yum install unzip wget tar gzip jq which sed -y
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to install utilities using yum install"
