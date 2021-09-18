@@ -25,10 +25,14 @@ checkOptions() {
     echo "CONFIG is not defined"
     exit 1
   fi
+  if [ -z "${SM_REGION}" ]; then
+    echo "SM_REGION is not defined"
+    exit 1
+  fi
 }
 action() {
 echo "Retrieve credentials from AWS secret manager"
-aws secretsmanager get-secret-value --secret-id ${SECRET_ID} --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > /tmp/secrets.env
+aws secretsmanager get-secret-value --secret-id ${SECRET_ID} --query SecretString --region ${SM_REGION} --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > /tmp/secrets.env
 result=$?
 if [ $result -ne 0 ]; then
 	echo "Failed to retrieve credentials from AWS secret manager"
@@ -50,8 +54,10 @@ if [ $result -ne 0 ]; then
 fi
 }
 SECRET_ID=""
-while getopts "s:a:c:" key; do
+while getopts "s:a:c:r:" key; do
   case ${key} in
+  r)
+    SM_REGION=${OPTARG}
   s)
     SECRET_ID=${OPTARG}
     ;;

@@ -65,6 +65,7 @@ if [ $result -ne 0 ]; then
     exit 1
 fi
 echo "awscli install completed"
+echo "${ACCESS_ID}, ${SECRET_KEY}, ${REGION}"
 aws configure set aws_access_key_id ${ACCESS_ID}
 result=$?
 if [ $result -ne 0 ]; then
