@@ -65,16 +65,22 @@ if [ $result -ne 0 ]; then
     exit 1
 fi
 echo "awscli install completed"
-declare -a awskey=(${ACCESS_ID} ${REGION} ${SECRET_KEY})
-for config in "${awskey[@]}"; do
-  aws configure set aws_access_key_id ${config}
-  rc=$?
-  if [ $rc -ne 0 ]; then
-    echo "Failed to set AWS env variable ${config}"
+aws configure set aws_access_key_id ${ACCESS_ID}
+result=$?
+if [ $result -ne 0 ]; then
+        echo "aws access key failed to set"
     exit 1
-  fi
-  echo "${config} env variable is set"
-done
+aws configure set aws_secret_access_key ${SECRET_KEY}
+result=$?
+if [ $result -ne 0 ]; then
+        echo "aws secret key failed to set"
+    exit 1
+aws configure set region ${REGION}}
+result=$?
+if [ $result -ne 0 ]; then
+        echo "aws region failed to set"
+    exit 1
+echo "aws environment variables set successfully"
 }
 SECRET_KEY=""
 ACCESS_ID=""
