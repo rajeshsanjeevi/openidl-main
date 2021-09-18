@@ -58,6 +58,7 @@ while getopts "s:a:c:r:" key; do
   case ${key} in
   r)
     SM_REGION=${OPTARG}
+    ;;
   s)
     SECRET_ID=${OPTARG}
     ;;
