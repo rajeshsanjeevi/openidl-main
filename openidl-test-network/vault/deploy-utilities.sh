@@ -16,49 +16,49 @@ checkOptions() {
 }
 action() {
 echo "Install utilities"
-yum install unzip wget tar gzip jq which sed -y
+yum install unzip wget tar gzip jq which sed -y > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to install utilities using yum install"
     exit 1
 fi
 echo "Success with yum install for required utilities"
-wget https://get.helm.sh/helm-v3.7.0-rc.3-linux-amd64.tar.gz
+wget https://get.helm.sh/helm-v3.7.0-rc.3-linux-amd64.tar.gz > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to download helm binary"
     exit 1
 fi
 echo "Downloaded helm binary"
-tar -zxvf helm-v3.7.0-rc.3-linux-amd64.tar.gz
+tar -zxvf helm-v3.7.0-rc.3-linux-amd64.tar.gz > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Extracting helm binary failed"
     exit 1
 fi
 echo "Helm binary extracted"
-mv linux-amd64/helm /usr/local/bin/helm
+mv linux-amd64/helm /usr/local/bin/helm > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to move helm binary under /usr/local/bin"
     exit 1
 fi
 echo "Helm is ready for usage"
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to download awscli"
     exit 1
 fi
 echo "awscli download completed"
-unzip awscliv2.zip
+unzip awscliv2.zip > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Extract awscli"
     exit 1
 fi
 echo "awscli unzipped"
-./aws/install --update
+./aws/install > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to install awscli"
@@ -66,19 +66,19 @@ if [ $result -ne 0 ]; then
 fi
 echo "awscli install completed"
 echo "${ACCESS_ID}, ${SECRET_KEY}, ${REGION}"
-aws configure set aws_access_key_id ${ACCESS_ID}
+aws configure set aws_access_key_id ${ACCESS_ID} > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "aws access key failed to set"
     exit 1
 fi
-aws configure set aws_secret_access_key ${SECRET_KEY}
+aws configure set aws_secret_access_key ${SECRET_KEY} > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "aws secret key failed to set"
     exit 1
 fi
-aws configure set region ${REGION}}
+aws configure set region ${REGION}} > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "aws region failed to set"
