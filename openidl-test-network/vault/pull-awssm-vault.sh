@@ -11,6 +11,7 @@ if [ ! -x "${JQ}" ]; then
   echo "jq command not found."
   exit 1
 fi
+echo "jq is available and working"
 
 checkOptions() {
   if [ -z "${SECRET_ID}" ]; then
@@ -35,24 +36,27 @@ echo "Retrieve credentials from AWS secret manager"
 aws secretsmanager get-secret-value --secret-id ${SECRET_ID} --query SecretString --region ${SM_REGION} --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > /tmp/secrets.env
 result=$?
 if [ $result -ne 0 ]; then
-	echo "Failed to retrieve credentials from AWS secret manager"
+	echo "Failed to retrieve credentials from AWS secrets manager"
     exit 1
 fi
-echo "Export retrieved credentials as ENV variables"
+echo "Retrieve credentials from AWS secrets manager is successful"
+echo "Exporting AWS credentials as ENV variables"
 eval $(cat /tmp/secrets.env | sed 's/^/export /')
 result=$?
 if [ $result -ne 0 ]; then
 	echo "Failed to export credentials as ENV variables"
     exit 1
 fi
+echo "AWS credentials exporting as ENV variables are successful"
 rm -f /tmp/secrets.env
+echo "Retrieve data from vault"
 ./vault/pull-vault-config.sh -V ${url} -U ${username} -P ${password} -a ${APP} -o ${orgName} -c ${CONFIG}
 result=$?
 if [ $result -ne 0 ]; then
-	echo "Failed to retrieve credentials from VAULT"
+	echo "Failed to retrieve data from VAULT"
     exit 1
 fi
-
+echo "Retrieve data from vault is successful"
 }
 SECRET_ID=""
 while getopts "s:a:c:r:" key; do
