@@ -52,6 +52,7 @@ if [ $result -ne 0 ]; then
 	echo "Failed to retrieve credentials from VAULT"
     exit 1
 fi
+
 }
 SECRET_ID=""
 while getopts "s:a:c:r:" key; do
