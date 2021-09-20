@@ -23,14 +23,14 @@ if [ $result -ne 0 ]; then
     exit 1
 fi
 echo "Success with yum install for required utilities"
-wget https://get.helm.sh/helm-v3.7.0-rc.3-linux-amd64.tar.gz
+wget https://get.helm.sh/helm-v3.7.0-rc.3-linux-amd64.tar.gz -o helm_download.log
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to download helm binary"
     exit 1
 fi
 echo "Downloaded helm binary"
-tar -zxvf helm-v3.7.0-rc.3-linux-amd64.tar.gz
+tar -zxvf helm-v3.7.0-rc.3-linux-amd64.tar.gz > /dev/null
 result=$?
 if [ $result -ne 0 ]; then
         echo "Extracting helm binary failed"
@@ -44,14 +44,14 @@ if [ $result -ne 0 ]; then
     exit 1
 fi
 echo "Helm is ready for usage"
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" > /dev/null
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to download awscli"
     exit 1
 fi
 echo "awscli download completed"
-unzip awscliv2.zip
+unzip awscliv2.zip > /dev/null
 result=$?
 if [ $result -ne 0 ]; then
         echo "Extract awscli"
