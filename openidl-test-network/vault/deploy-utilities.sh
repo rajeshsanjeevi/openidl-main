@@ -13,6 +13,10 @@ checkOptions() {
     echo "AWS_REGION is not defined"
     exit 1
   fi
+  if [ -z "${ROLE}" ]; then
+    echo "ROLE is not defined"
+    exit 1
+  fi
 }
 action() {
 echo "Install utilities"
@@ -83,22 +87,32 @@ if [ $result -ne 0 ]; then
         echo "AWS region failed to set"
     exit 1
 fi
-echo "AWS environment variables set successfully"
+aws configure set aws_role_arn ${ROLE}
+result=$?
+if [ $result -ne 0 ]; then
+        echo "AWS role failed to set"
+    exit 1
+fi
+echo "All AWS environment variables set successfully"
 }
 SECRET_KEY=""
 ACCESS_ID=""
 REGION=""
+ROLE=""
 
-while getopts "a:s:r:" key; do
+while getopts "access:secret:region:role:" key; do
   case ${key} in
-  a)
+  access)
     ACCESS_ID=${OPTARG}
     ;;
-  s)
+  secret)
     SECRET_KEY=${OPTARG}
     ;;
-  r)
+  region)
     REGION=${OPTARG}
+    ;;
+  role)
+    ROLE=${OPTARG}
     ;;
   \?)
     echo "Unknown flag: ${key}"
