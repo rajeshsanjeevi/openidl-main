@@ -100,7 +100,7 @@ ACCESS_ID=""
 REGION=""
 ROLE=""
 
-while getopts "access:secret:r1:r2:" key; do
+while getopts "a:s:r1:r2:" key; do
   case ${key} in
   a)
     ACCESS_ID=${OPTARG}
