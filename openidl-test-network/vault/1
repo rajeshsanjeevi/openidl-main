@@ -1,1 +1,1 @@
-./deploy-utilities.sh: line 19: yum: command not found
+./deploy-utilities.sh: line 23: yum: command not found
