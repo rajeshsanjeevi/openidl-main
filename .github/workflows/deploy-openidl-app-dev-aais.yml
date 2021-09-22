@@ -5,7 +5,7 @@ name: Deploy openIDL dev-aais
 on:
   push:
     branches:
-      - 'mood-listener'
+  #    - 'mood-listener'
   #  paths:
   #    - 'openidl-k8s/global-values-dev-aais.yaml'
 
