@@ -81,7 +81,7 @@ if [ $result -ne 0 ]; then
         echo "AWS secret key failed to set"
     exit 1
 fi
-aws configure set region ${REGION}}
+aws configure set region ${REGION}
 result=$?
 if [ $result -ne 0 ]; then
         echo "AWS region failed to set"
@@ -99,6 +99,7 @@ SECRET_KEY=""
 ACCESS_ID=""
 REGION=""
 ROLE=""
+EXTERNAL_ID="git-actions"
 
 while getopts "a:s:r:o:" key; do
   case ${key} in
