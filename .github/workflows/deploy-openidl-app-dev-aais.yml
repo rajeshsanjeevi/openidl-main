@@ -26,7 +26,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.eks_admin_access_key }}
         aws-secret-access-key: ${{ secrets.eks_admin_secret_key }}
-        aws-region: ${{ secrets.eks_region }}
+        aws-region: ${{ secrets.eks_sm_region }}
         role-to-assume: ${{ secrets.eks_admin_role }}
         role-external-id: ${{ secrets.eks_external_id }}
         role-duration-seconds: 3600 # session valid for 30 minutes
