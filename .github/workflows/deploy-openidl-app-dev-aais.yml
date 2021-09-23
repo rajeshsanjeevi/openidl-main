@@ -42,7 +42,7 @@ jobs:
 
     - name: Setup kube-config
       run: |
-        aws eks update-kubeconfig --region ${{ secrets.eks_region }} --name ${{ secrets.eks_cluster_name }}
+        aws eks update-kubeconfig --region ${{ secrets.eks_sm_region }} --name ${{ secrets.eks_cluster_name }}
 
     - name: Deploy openIDL app using helm
       run: |
