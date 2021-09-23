@@ -32,6 +32,13 @@ checkOptions() {
   fi
 }
 action() {
+export AWS_PROFILE=git-role
+result=$?
+if [ $result -ne 0 ]; then
+	echo "Failed to set AWS_PROFILE to git-role"
+    exit 1
+fi
+echo "AWS_PROFILE is set to git-role successfully"
 echo "Retrieve credentials from AWS secret manager"
 aws secretsmanager get-secret-value --secret-id ${SECRET_ID} --query SecretString --region ${SM_REGION} --output text | jq -r 'to_entries|map("\(.key)=\(.value)")|.[]' > /tmp/secrets.env
 result=$?
