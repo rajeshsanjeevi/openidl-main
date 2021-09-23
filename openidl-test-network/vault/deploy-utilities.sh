@@ -20,7 +20,7 @@ checkOptions() {
 }
 action() {
 echo "Install utilities"
-yum install unzip wget tar gzip jq which sed -y > /dev/null 2&>1
+yum install unzip wget tar gzip jq which sed less -y > /dev/null 2&>1
 result=$?
 if [ $result -ne 0 ]; then
         echo "Failed to install utilities using yum install"
@@ -69,25 +69,43 @@ if [ $result -ne 0 ]; then
     exit 1
 fi
 echo "awscli install completed"
-aws configure set aws_access_key_id ${ACCESS_ID}
+aws configure set aws_access_key_id ${ACCESS_ID} --profile git-user
 result=$?
 if [ $result -ne 0 ]; then
-        echo "AWS access key failed to set"
+        echo "AWS access key failed to set on profile git-user"
     exit 1
 fi
-aws configure set aws_secret_access_key ${SECRET_KEY}
+aws configure set aws_secret_access_key ${SECRET_KEY} --profile git-user
 result=$?
 if [ $result -ne 0 ]; then
-        echo "AWS secret key failed to set"
+        echo "AWS secret key failed to set on profile git-user"
     exit 1
 fi
-aws configure set region ${REGION}
+aws configure set region ${REGION} --profile git-user
 result=$?
 if [ $result -ne 0 ]; then
-        echo "AWS region failed to set"
+        echo "AWS region failed to set on profiel git-user"
     exit 1
 fi
-aws configure set aws_role_arn ${ROLE}
+aws configure set external_id ${EXTERNAL_ID} --profile git-user
+result=$?
+if [ $result -ne 0 ]; then
+        echo "AWS external_id failed to set on profile git-user"
+    exit 1
+fi
+aws configure set external_id ${EXTERNAL_ID} --profile git-role
+result=$?
+if [ $result -ne 0 ]; then
+        echo "AWS external_id failed to set on profile git-role"
+    exit 1
+fi
+aws configure set source_profile git-user --profile git-role
+result=$?
+if [ $result -ne 0 ]; then
+        echo "Failed to set source_profile as git-user on profile git-role"
+    exit 1
+fi
+aws configure set role_arn ${ROLE} --profile git-role
 result=$?
 if [ $result -ne 0 ]; then
         echo "AWS role failed to set"
