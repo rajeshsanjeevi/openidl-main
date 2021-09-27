@@ -56,7 +56,6 @@ if [ $result -ne 0 ]; then
 fi
 echo "AWS credentials exporting as ENV variables are successful"
 rm -f /tmp/secrets.env
-echo ${url}, ${username}, ${password}, ${orgName}
 echo "Retrieve data from vault"
 ./vault/pull-vault-config.sh -V ${url} -U ${username} -P ${password} -a ${APP} -o ${orgName} -c ${CONFIG} > pull-vault-config.log
 result=$?
