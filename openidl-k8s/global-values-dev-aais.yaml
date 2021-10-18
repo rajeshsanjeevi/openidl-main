@@ -1,5 +1,5 @@
 global:
-  clusterurl: aaisdemo.com
+  clusterurl: aaisdemo1.com
   appsecret: apps-secret
   configpath: config-aais
   datacallapp:
