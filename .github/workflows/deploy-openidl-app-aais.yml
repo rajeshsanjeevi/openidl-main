@@ -20,10 +20,10 @@ on:
   push:
     branches:
       - 'develop'
-#    paths:
-#      - 'openidl-k8s/global-values-dev-aais.yaml'
-#      - 'openidl-k8s/global-values-test-aais.yaml'
-#     - 'openidl-k8s/global-values-prod-aais.yaml'
+    paths:
+      - 'openidl-k8s/global-values-dev-aais.yaml'
+      - 'openidl-k8s/global-values-test-aais.yaml'
+      - 'openidl-k8s/global-values-prod-aais.yaml'
 
 defaults:
   run:
@@ -31,8 +31,6 @@ defaults:
 
 jobs:
   deploy-openidl-app-dev-aais:
-    - paths: 
-        - 'openidl-k8s/global-values-dev-aais.yaml'
     environment: dev-aais
 
     name: Deploy openIDL application on dev-aais
@@ -70,8 +68,6 @@ jobs:
           --set global.secrets.install=false
 
   deploy-openidl-app-test-aais:
-    - paths: 
-        - 'openidl-k8s/global-values-test-aais.yaml'
     environment: test-aais
 
     name: Deploy openIDL application on test-aais
@@ -109,8 +105,6 @@ jobs:
             --set global.secrets.install=false
 
   deploy-openidl-app-prod-aais:
-    - paths:
-        - 'openidl-k8s/global-values-prod-aais.yaml'
     environment: prod-aais
 
     name: Deploy openIDL application on prod-aais
