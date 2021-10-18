@@ -20,10 +20,10 @@ on:
   push:
     branches:
       - 'develop'
-    paths:
-      - 'openidl-k8s/global-values-dev-aais.yaml'
-      - 'openidl-k8s/global-values-test-aais.yaml'
-      - 'openidl-k8s/global-values-prod-aais.yaml'
+#    paths:
+#      - 'openidl-k8s/global-values-dev-aais.yaml'
+#      - 'openidl-k8s/global-values-test-aais.yaml'
+#     - 'openidl-k8s/global-values-prod-aais.yaml'
 
 defaults:
   run:
