@@ -11,7 +11,7 @@ image:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     # tag: latest
-    tag: 0.0.4
+    tag: 0.0.5
 
 imagePullSecrets: []
 nameOverride: ""
@@ -96,8 +96,6 @@ secrets:
       file: local-db-config.json
     - name: email-config
       file: email.json
-    - name: insurance-data-manager-constant-config
-      file: constant.js
     - name: insurance-data-manager-default-config
       file: default.json
     - name: insurance-data-manager-mappings-config

@@ -19,3 +19,13 @@ openidl-ui-workspace/package-lock.json
 openidl-ui-workspace/projects/openidl-carrier-ui/server/config/local-appid-config.json
 openidl-ui-workspace/projects/openidl-ui/server/config/local-appid-config.json
 **/*for testing*.*
+openidl-local-reference-implementation/config/config.json
+**/npmls.txt
+openidl-local-reference-implementation/config/config.json
+openidl-config/aais-dev-config-secrets.json
+openidl-config/config/*
+!openidl-config/config/placeholder.txt
+openidl-config/analytics-dev-config-secrets.json
+ca.pem
+openidl-config/carrier-dev-config-secrets.json
+openidl-config/carrier-dev-config-secrets.json.hig
