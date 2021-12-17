@@ -76,11 +76,11 @@
 
   - name: Download git repository content
     git:
-      repo: "{{ git-repository }}"
+      repo: "{{ git_repository }}"
       dest: /tmp/openidl
       force: yes
       single_branch: yes
-      version: "{{ git-branch }}"
+      version: "{{ git_branch }}"
 
   - name: Deploy openIDL app using helm
     shell: |
