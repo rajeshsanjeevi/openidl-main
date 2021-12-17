@@ -74,9 +74,23 @@
       sudo chmod +x /usr/local/bin/helm
     when: helm_installer_unarchive.changed
 
+  - name: Download git repository content
+    git:
+      repo: { { git-repository } }
+      dest: /tmp/openidl
+      force: yes
+      single_branch: yes
+      version: { { git-branch } }
+
   - name: Deploy openIDL app using helm
     shell: |
-      helm upgrade --recreate-pods --install dev-carrier ../openidl-k8s -f ../openidl-k8s/global-values-{{ env }}-{{ node_type }}.yaml \
+      helm upgrade --recreate-pods --install dev-carrier /tmp/openidl/openidl-k8s -f /tmp/openidl/openidl-k8s/global-values-{{ env }}-{{ node_type }}.yaml \
           -n openidl --set global.datacallapp.ingressenabled=true --set global.utilities.ingressenabled=true \
           --set global.carrierui.ingressenabled=true --set global.insurancedatamanager.ingressenabled=true \
           --set global.secrets.install=false
+
+  - name: Dispose temporary git repository content
+    file:
+      path: /tmp/openidl/
+      state: absent
+
