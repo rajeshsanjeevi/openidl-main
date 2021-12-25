@@ -12,7 +12,7 @@ pipeline {
         string description: 'Environment (dev | test | prod)', name: 'env', trim: true
         string description: 'AWS region', name: 'aws_region', trim: true
         string description: 'Name of the application cluster(EKS)', name: 'app_cluster_name', trim: true
-        string description: 'Git Branch Name', name: 'git_branch', trim: true,
+        string description: 'Git Branch Name', name: 'git_branch', trim: true
         string description: 'Git Repository', name: 'git_repository', trim: true
         }
     stages{
