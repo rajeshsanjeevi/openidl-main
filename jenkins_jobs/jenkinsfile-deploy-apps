@@ -10,8 +10,6 @@ pipeline {
     parameters {
         string description: 'Node Type (aais | analytics | carrier)', name: 'node_type', trim: true
         string description: 'Environment (dev | test | prod)', name: 'env', trim: true
-        string description: 'AWS region', name: 'aws_region', trim: true
-        string description: 'Name of the application cluster(EKS)', name: 'app_cluster_name', trim: true
         string description: 'Git Branch Name', name: 'git_branch', trim: true
         string description: 'Git Repository', name: 'git_repository', trim: true
         }
@@ -32,8 +30,6 @@ pipeline {
                         extraVars: """---
                         node_type: '${params.node_type}'
                         env: '${params.env}'
-                        aws_region: '${params.aws_region}'
-                        app_cluster_name: '${params.app_cluster_name}'
                         git_branch: '${params.git_branch}'
                         git_repository: '${params.git_repository}'
                         """
