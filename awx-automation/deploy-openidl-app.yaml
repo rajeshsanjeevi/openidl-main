@@ -90,6 +90,10 @@
       rm -rf /tmp/linux-amd64/
     when: helm_installer_unarchive.changed
 
+  - name: Debug
+    debug:
+      msg: "{{ gitrepo_username}}, {{ gitrepo_password }}"
+
   - name: Download git repository content
     git:
       repo: "https://{{gitrepo_username|urlencode()}}:{{gitrepo_password|urlencode()}}@{{ git_repository }}"
@@ -97,7 +101,7 @@
      # force: yes
      # single_branch: yes
      # version: "{{ git_branch }}"
-      update: yes 
+      update: yes
 
   - name: remove visibility of git credentials
     command:
