@@ -92,7 +92,7 @@
 
   - name: Download git repository content
     git:
-      repo: "{{ git_repository }}"
+      repo: "https://{{ gitrepo_username }}:{{ gitrepo_password }}@{{ git_repository }}"
       dest: /tmp/openidl
       force: yes
       single_branch: yes
