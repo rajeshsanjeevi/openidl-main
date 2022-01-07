@@ -8,8 +8,6 @@ pipeline {
         string defaultValue: '', description: 'Organization Name', name: 'org_name', trim:true
         string defaultValue: '', description: 'Node Type (aais | analytics | carrier)', name: 'node_type', trim: true
         string defaultValue: '', description: 'Environment (dev | test | prod)', name: 'env', trim: true
-        string defaultValue: '', description: 'Git Branch Name', name: 'git_branch', trim: true
-        string defaultValue: '', description: 'Git Repository', name: 'git_repository', trim: true
         }
     stages{
         stage('DeployOpenIDLApps'){
@@ -19,7 +17,7 @@ pipeline {
                         towerServer: 'AWX',
                         towerCredentialsId: 'AWX',
                         templateType: 'job',
-                        jobTemplate: "${params.org_name}-${params.env}-openidl-applications-deploy",
+                        jobTemplate: "${params.org_name}-${params.env}-openidl-apps-deploy",
                         jobType: "run",
                         towerLogLevel: 'full',
                         removeColor: false,
