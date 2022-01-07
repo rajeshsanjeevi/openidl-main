@@ -1,16 +1,30 @@
 ---
 - name: Deploy OpenIDL application on {{ node_type }} node
   hosts: ec2-18-119-105-48.us-east-2.compute.amazonaws.com
-  gather_facts: no
+  gather_facts: yes
   no_log: "{{ no_ansible_log | default(false) }}"
   tasks:
-  - name: Install package dependencies
+  - name: Install package dependencies - ubuntu
     package:
       name: "{{ item }}"
       state: present
     with_items:
       - curl
       - awscli
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install package dependencies - redhat
+    become: true
+    yum:
+      name: curl
+    when: ansible_distribution == "RedHat"
+
+  - name: Install awscli - redhat
+    become: true
+    pip:
+      name: "awscli"
+      executable: "pip3"
+    when: ansible_distribution == "RedHat"
 
   - name: Configure awscli credentials for IAM user
     shell: aws configure set {{ item.key }} {{ item.value }} --profile cicd-user
