@@ -92,11 +92,16 @@
 
   - name: Download git repository content
     git:
-      repo: "https://rajeshsanjeevi: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@github.com/rajeshsanjeevi/openidl-main.git"
+      repo: "https://{{gitrepo_username|urlencode()}}:{{gitrepo_password|urlencode()}}@{{ git_repository }}"
       dest: /tmp/openidl
       force: yes
       single_branch: yes
       version: "{{ git_branch }}"
+
+  - name: remove visibility of git credentials
+    command:
+      cmd: git remote set-url origin https://{{ git_repository }}
+      chdir: "/tmp/openidl"
 
   - name: Deploy openIDL app using helm
     shell: |
