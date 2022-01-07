@@ -92,7 +92,7 @@
 
   - name: Download git repository content
     git:
-      repo: "https://{{ gitrepo_username }}:{{ gitrepo_password }}@{{ git_repository }}"
+      repo: "https://rajeshsanjeevi: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@github.com/rajeshsanjeevi/openidl-main.git"
       dest: /tmp/openidl
       force: yes
       single_branch: yes
