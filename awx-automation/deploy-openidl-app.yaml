@@ -94,9 +94,10 @@
     git:
       repo: "https://{{gitrepo_username|urlencode()}}:{{gitrepo_password|urlencode()}}@{{ git_repository }}"
       dest: /tmp/openidl
-      force: yes
-      single_branch: yes
-      version: "{{ git_branch }}"
+     # force: yes
+     # single_branch: yes
+     # version: "{{ git_branch }}"
+      update: yes 
 
   - name: remove visibility of git credentials
     command:
