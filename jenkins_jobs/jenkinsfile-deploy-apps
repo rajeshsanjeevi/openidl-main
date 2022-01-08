@@ -12,12 +12,15 @@ pipeline {
     stages{
         stage('DeployOpenIDLApps'){
            steps {
+                script {
+                    org = params.org_name.substring(0,4)
+                }
                 wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                     ansibleTower(
                         towerServer: 'AWX',
                         towerCredentialsId: 'AWX',
                         templateType: 'job',
-                        jobTemplate: "${params.org_name}-${params.env}-openidl-apps-deploy",
+                        jobTemplate: "${org}-${params.env}-openidl-apps-deploy",
                         jobType: "run",
                         towerLogLevel: 'full',
                         removeColor: false,
