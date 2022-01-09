@@ -2,5 +2,4 @@
 local
 
 [local]
-localhost ansible_connection=local
-ansible_provisioners ansible_connection=local
+ansible_provisioners1 ansible_connection=local
