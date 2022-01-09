@@ -3,3 +3,4 @@ local
 
 [local]
 localhost ansible_connection=local
+ansible_provisioners ansible_connection=local
