@@ -8,6 +8,8 @@ pipeline {
         string defaultValue: '', description: 'Organization Name', name: 'org_name', trim:true
         string defaultValue: '', description: 'Node Type (aais | analytics | carrier)', name: 'node_type', trim: true
         string defaultValue: '', description: 'Environment (dev | test | prod)', name: 'env', trim: true
+        string defaultValue: '', description: 'Deploy action (apps | secrets)'; name: '
+        choice choices: ['applications', 'secrets'], description: 'Deploy applications | secrets', name: 'deploy_action'
         }
     stages{
         stage('DeployOpenIDLApps'){
@@ -31,6 +33,7 @@ pipeline {
                         env: '${params.env}'
                         git_branch: '${params.git_branch}'
                         git_repository: '${params.git_repository}'
+                        deploy_action: '${params.deploy_action}'
                         """
                         )
                 }
