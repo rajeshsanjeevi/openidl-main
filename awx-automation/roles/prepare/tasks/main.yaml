@@ -40,7 +40,7 @@
     source_profile: "cicd-user"
     role_arn: "{{ aws_iam_role }}"
     region: "{{ aws_region }}"
-   changed_when: false
+  changed_when: false
 
 - name: Test AWS CLI is functioning
   shell: export AWS_PROFILE=cicd-role; aws sts get-caller-identity
