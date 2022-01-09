@@ -1,6 +1,6 @@
 ---
 - name: Deploy OpenIDL application on {{ node_type }} node
-  hosts: ansible_provisioners
+  hosts: ansible_provisioners1
   gather_facts: yes
   no_log: "{{ no_ansible_log | default(false) }}"
   tasks:
