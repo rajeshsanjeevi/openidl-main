@@ -19,7 +19,7 @@ pipeline {
                         towerServer: 'AWX',
                         towerCredentialsId: 'AWX',
                         templateType: 'job',
-                        jobTemplate: "${org}-${params.env}-openidl-apps-deploy",
+                        jobTemplate: "${org}-${params.env}-openidl-apps",
                         jobType: "run",
                         towerLogLevel: 'full',
                         removeColor: false,
