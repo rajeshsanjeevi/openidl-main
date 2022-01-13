@@ -62,10 +62,15 @@
   register: deploy_secrets
   when: secrets_retrieved.rc == 0
 
-- name: Dispose the pod
-  shell: |
-    kubectl delete pod deploy-secrets -n openidl
-  when: pod_ready.rc == 0
+- name: Delete deploy-secrets pod
+  community.kubernetes.k8s:
+    name: deploy-secrets
+    namespace: openidl
+    api_version: v1
+    kind: Pod
+    state: absent
+
+    wait: yes
 
 - name: Dispose temporary git repository content
   file:
