@@ -37,7 +37,7 @@
     kubectl cp /tmp/openidl/openidl-test-network/vault/ openidl/deploy-secrets:/
     kubectl exec deploy-secrets -n openidl -- sh -c "chmod +x vault/*.sh"
     kubectl exec deploy-secrets -n openidl -- sh -c \
-              "mkdir openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}"
+              "mkdir -p openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}"
     kubectl exec deploy-secrets -n openidl -- sh -c "./vault/deploy-utilities.sh \
               -a {{ aws_access_key }} -s {{ aws_secret_key }} \
               -r {{ aws_region }} -o {{ aws_iam_role }}"
