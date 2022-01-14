@@ -63,7 +63,7 @@ global:
         targetport: 80
         servicename: upload-service
         image:
-            repository:ghcr.io/openidl-org/aais-upload
+            repository: ghcr.io/openidl-org/aais-upload
             pullPolicy: IfNotPresent
             tag: latest
     datacallmoodlistener:
