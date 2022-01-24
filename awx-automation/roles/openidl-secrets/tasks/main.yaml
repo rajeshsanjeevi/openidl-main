@@ -65,7 +65,7 @@
               git clone https://{{gitrepo_username|urlencode()}}:{{gitrepo_password|urlencode()}}@{{ gitrepo_name }} -b {{ gitrepo_branch }} $LOCAL_PATH
               yum install tar -y /dev/null 2&>1
               chmod +x $LOCAL_PATH/openidl-test-network/vault/*.sh
-              mkdir -p $LOCAL_PATH/openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }
+              mkdir -p $LOCAL_PATH/openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}
               ./$LOCAL_PATH/openidl-test-network/vault/deploy-utilities.sh \
               -a ${ACCESS_KEY} -s ${SECRET_KEY} -r {{ aws_region }} -o {{ aws_iam_role }}
               ./$LOCAL_PATH/openidl-test-network/vault/pull-aws-vault-config.sh -s {{ vault_secret_name }} \
