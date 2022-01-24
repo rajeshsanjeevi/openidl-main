@@ -70,7 +70,7 @@
               -a ${ACCESS_KEY} -s ${SECRET_KEY} -r {{ aws_region }} -o {{ aws_iam_role }}
               ./$LOCAL_PATH/openidl-test-network/vault/pull-aws-vault-config.sh -s {{ vault_secret_name }} \
               -r {{ aws_region }} -a config-{{ org_name }} \
-              -c $LOCAL_PATH/openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}"
+              -c $LOCAL_PATH/openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}
               export AWS_PROFILE=git-role; aws eks update-kubeconfig --region {{ aws_region }} --name {{ app_cluster_name }}
               helm upgrade -- install {{ env }}-{{ org_name }}-secrets ./$LOCAL_PATH/openidl-k8s \
               -f ./$LOCAL_PATH/openidl-k8s/global-vaules-secrets.yaml -n openidl \
