@@ -76,5 +76,6 @@
               -f ./$LOCAL_PATH/openidl-k8s/global-vaules-secrets.yaml -n openidl \
               --set global.configpath=config-{{ env }}-{{ org_name }}
 
+#delete secret
 # Add pod logging
 # mask credentials from git clone command.
