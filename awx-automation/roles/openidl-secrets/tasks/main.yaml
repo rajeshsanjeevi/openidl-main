@@ -25,7 +25,7 @@
       data:
         ACCESS_KEY: "{{ aws_access_key }}"
         SECRET_KEY: "{{ aws_secret_key }}"
-        GIREPO_PASSWORD: "{{ gitrepo_password }}"
+        GIREPO_PASSWORD: "{{ gitrepo_password | b64encode }}"
 
 - name: Launch Pod for Deploy Secrets
   community.kubernetes.k8s:
