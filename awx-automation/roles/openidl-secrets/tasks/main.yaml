@@ -12,67 +12,67 @@
     state: absent
     wait: yes
 
-- name: Create a openidl k8s namespace
+- name: Create secret for credentials
   community.kubernetes.k8s:
-    name: openidl
-    api_version: v1
-    kind: Namespace
     state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      type: Opaque
+      metadata:
+        name: deploy-secrets-creds
+        namespace: openidl
+      data:
+        ACCESS_KEY: "{{ aws_access_key }}"
+        SECRET_KEY: "{{ aws_secret_key }}"
+        GIREPO_PASSWORD: "{{ gitrepo_password }}"
 
-- name: Download git repository content
-  git:
-    repo: "https://{{gitrepo_username|urlencode()}}:{{gitrepo_password|urlencode()}}@{{ gitrepo_name }}"
-    dest: /tmp/openidl
-    force: yes
-    single_branch: yes
-    version: "{{ gitrepo_branch }}"
-
-- name: Prepare a pod
-  no_log: True
-  shell: |
-    kubectl run deploy-secrets -n openidl --image=amazonlinux:latest --command sleep infinity
-    sleep 60
-    kubectl exec deploy-secrets -n openidl -- sh -c "yum install tar -y > /dev/null 2&>1"
-    kubectl cp /tmp/openidl/openidl-k8s/ openidl/deploy-secrets:/
-    kubectl cp /tmp/openidl/openidl-test-network/vault/ openidl/deploy-secrets:/
-    kubectl exec deploy-secrets -n openidl -- sh -c "chmod +x vault/*.sh"
-    kubectl exec deploy-secrets -n openidl -- sh -c \
-              "mkdir -p openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}"
-    kubectl exec deploy-secrets -n openidl -- sh -c "./vault/deploy-utilities.sh \
-              -a {{ aws_access_key }} -s {{ aws_secret_key }} \
-              -r {{ aws_region }} -o {{ aws_iam_role }}"
-  register: pod_ready
-
-- name: Retrieve secrets from vault
-  shell: |
-    kubectl exec deploy-secrets -n openidl -- sh -c "./vault/pull-aws-vault-config.sh \
-              -s {{ vault_secret_name }} -r {{ aws_region }} -a config-{{ org_name }} \
-              -c openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}"
-  register: secrets_retrieved
-  when: pod_ready.rc == 0
-
-- name: Deploy secrets
-  shell: |
-    kubectl exec deploy-secrets -n openidl -- sh -c "export AWS_PROFILE=git-role; aws eks update-kubeconfig \
-              --region {{ aws_region }} --name {{ app_cluster_name }}"
-    kubectl exec deploy-secrets -n openidl -- helm upgrade --install \
-              {{ env }}-{{ org_name }}-secrets ./openidl-k8s \
-              -f ./openidl-k8s/global-values-secrets.yaml -n openidl \
-            --set global.configpath=config-{{ env }}-{{ org_name }}
-  register: deploy_secrets
-  when: secrets_retrieved.rc == 0
-
-- name: Delete deploy-secrets pod
+- name: Launch Pod for Deploy Secrets
   community.kubernetes.k8s:
-    name: deploy-secrets
-    namespace: openidl
-    api_version: v1
-    kind: Pod
-    state: absent
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: deploy-secrets
+        namespace: openidl
+      spec:
+        containers:
+        - name: deploysecrets
+          image: amazonlinux:latest
+          env:
+          - name: ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: deploy-secrets-creds
+                key: ACCESS_KEY
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: deploy-secrets-creds
+                key: SECRET_KEY
+          - name: GITREPO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: deploy-secrets-creds
+                key: GITREPO_PASSWORD
+          command: ["sh", "-c"]
+          args:
+            - |-
+              #!/bin/bash -e
+              set -x
+              export LOCAL_PATH=/home/gitrepo
+              git clone https://{{gitrepo_username|urlencode()}}:{{gitrepo_password|urlencode()}}@{{ gitrepo_name }} -b {{ gitrepo_branch }} $LOCAL_PATH
+              yum install tar -y /dev/null 2&>1
+              chmod +x $LOCAL_PATH/openidl-test-network/vault/*.sh
+              mkdir -p $LOCAL_PATH/openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }
+              ./$LOCAL_PATH/openidl-test-network/vault/deploy-utilities.sh \
+              -a ${ACCESS_KEY} -s ${SECRET_KEY} -r {{ aws_region }} -o {{ aws_iam_role }}
+              ./$LOCAL_PATH/openidl-test-network/vault/pull-aws-vault-config.sh -s {{ vault_secret_name }} \
+              -r {{ aws_region }} -a config-{{ org_name }} \
+              -c openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}"
+              export AWS_PROFILE=git-role; aws eks update-kubeconfig --region {{ aws_region }} --name {{ app_cluster_name }}
+              helm upgrade -- install {{ env }}-{{ org_name }}-secrets ./$LOCAL_PATH/openidl-k8s \
+              -f ./$LOCAL_PATH/openidl-k8s/global-vaules-secrets.yaml -n openidl \
+              --set global.configpath=config-{{ env }}-{{ org_name }}
 
-    wait: yes
-
-- name: Dispose temporary git repository content
-  file:
-    path: /tmp/openidl/
-    state: absent
