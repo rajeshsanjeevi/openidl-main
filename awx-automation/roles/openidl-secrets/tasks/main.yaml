@@ -76,7 +76,7 @@
               -c $LOCAL_PATH/openidl-k8s/charts/openidl-secrets/config-{{ env }}-{{ org_name }}
               export AWS_PROFILE=git-role; aws eks update-kubeconfig --region {{ aws_region }} --name {{ app_cluster_name }}
               helm upgrade --install {{ env }}-{{ org_name }}-secrets .$LOCAL_PATH/openidl-k8s \
-              -f .$LOCAL_PATH/openidl-k8s/global-vaules-secrets.yaml -n openidl \
+              -f .$LOCAL_PATH/openidl-k8s/global-values-secrets.yaml -n openidl \
               --set global.configpath=config-{{ env }}-{{ org_name }}
 
 - name: deploy-secrets pod logs
