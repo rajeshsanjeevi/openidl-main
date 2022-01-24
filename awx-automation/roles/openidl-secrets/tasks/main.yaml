@@ -78,7 +78,8 @@
               helm upgrade --install {{ env }}-{{ org_name }}-secrets .$LOCAL_PATH/openidl-k8s \
               -f .$LOCAL_PATH/openidl-k8s/global-values-secrets.yaml -n openidl \
               --set global.configpath=config-{{ env }}-{{ org_name }}
-
+          restartPolicy: Never
+          backoffLimit: 0
 - name: deploy-secrets pod logs
   shell: |
     kubectl -n openidl logs -f deploy-secrets
