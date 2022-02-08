@@ -25,7 +25,15 @@ openidl-local-reference-implementation/config/config.json
 openidl-config/aais-dev-config-secrets.json
 openidl-config/config/*
 !openidl-config/config/placeholder.txt
+openidl-config/ubuntu.yml
 openidl-config/analytics-dev-config-secrets.json
 ca.pem
-openidl-config/carrier-dev-config-secrets.json
-openidl-config/carrier-dev-config-secrets.json.hig
+openidl-data-utilities/config/config.json
+openidl-data-utilities/config/logins.json
+openidl-data-utilities/output/output.csv
+openidl-config/openidl-configurations/config/carrier-config.json
+openidl-config/vault/*
+openidl-config/*
+openidl-k8s/*
+awx-automation/*
+jenkins-jobs/*
