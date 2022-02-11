@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14.17-alpine
 ARG PROJECT=ui
 ENV PROJECT ${PROJECT}
 
@@ -6,7 +6,7 @@ RUN apk update && apk upgrade && \
     apk add --no-cache \
     bash \
     git \
-    python2 \
+    python \
     make \
     g++
 
