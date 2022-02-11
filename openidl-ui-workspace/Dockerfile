@@ -6,7 +6,7 @@ RUN apk update && apk upgrade && \
     apk add --no-cache \
     bash \
     git \
-    python \
+    python2 \
     make \
     g++
 
