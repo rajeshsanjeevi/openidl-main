@@ -2,7 +2,7 @@ name: Publish openIDL utilities
 on:
   push:
     branches:
-      - 'develop'
+      - 'develop-jenkins'
     paths:
       - 'openidl-utilities/**'
 
