@@ -2,7 +2,7 @@ name: Publish openIDL insurance-data-manager
 on:
   push:
     branches:
-      - 'develop'
+      - 'develop-jenkins'
     paths:
       - 'openidl-insurance-data-manager/**'
 
