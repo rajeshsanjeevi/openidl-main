@@ -12,7 +12,7 @@
         "jest": "jest --config ./jest.config.js"
     },
     "dependencies": {
-        "@rajeshsanjeevi/openidl-common-lib": "^0.0.1",
+        "@rajeshsanjeevi/openidl-common-lib": "0.0.1",
         "@sendgrid/mail": "^7.2.1",
         "body-parser": "^1.18.3",
         "config": "^2.0.1",
