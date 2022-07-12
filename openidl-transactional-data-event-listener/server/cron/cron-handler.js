@@ -15,9 +15,9 @@ const {
 } = require('@openidl-org/openidl-common-lib');
 let ChannelTransactionMap = new Map();
 logger.level = config.logLevel;
-// Transaction.initWallet(kvsConfig);
-Transaction.initWallet(JSON.parse(process.env.KVS_CONFIG));
-logger.debug("kvs config: ", JSON.parse(process.env.KVS_CONFIG))
+Transaction.initWallet(kvsConfig);
+logger.debug(typeof kvsConfig)
+logger.debug("kvs config: ", JSON.stringify(kvsConfig))
 for (let channelIndex = 0; channelIndex < targetChannelConfig.targetChannels.length; channelIndex++) {
     const targetChannelTransaction = new Transaction(targetChannelConfig.users[0].org, targetChannelConfig.users[0].user, targetChannelConfig.targetChannels[channelIndex].channelName, targetChannelConfig.targetChannels[channelIndex].chaincodeName, targetChannelConfig.users[0].mspId);
     targetChannelTransaction.init(networkConfig);
