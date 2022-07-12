@@ -8,15 +8,16 @@ const matureEventHandler = require('../matureEvent/matureEvent');
 logger.level = config.logLevel;
 
 const targetChannelConfig = require('../config/target-channel-config');
-const kvsConfig = require('../config/local-kvs-config.json');
+// const kvsConfig = require('../config/local-kvs-config.json');
 const networkConfig = require('../config/connection-profile.json');
 const {
     Transaction
 } = require('@openidl-org/openidl-common-lib');
 let ChannelTransactionMap = new Map();
 logger.level = config.logLevel;
-logger.warn("kvs config: ", process.env.KVS_CONFIG)
-Transaction.initWallet(kvsConfig);
+// Transaction.initWallet(kvsConfig);
+Transaction.initWallet(JSON.parse(process.env.KVS_CONFIG));
+logger.debug("kvs config: ", JSON.parse(process.env.KVS_CONFIG))
 for (let channelIndex = 0; channelIndex < targetChannelConfig.targetChannels.length; channelIndex++) {
     const targetChannelTransaction = new Transaction(targetChannelConfig.users[0].org, targetChannelConfig.users[0].user, targetChannelConfig.targetChannels[channelIndex].channelName, targetChannelConfig.targetChannels[channelIndex].chaincodeName, targetChannelConfig.users[0].mspId);
     targetChannelTransaction.init(networkConfig);

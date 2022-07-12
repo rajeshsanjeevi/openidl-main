@@ -67,6 +67,7 @@ async function init() {
     const pollIntervalString = config.pollIntervalString;
     logger.info("poll interval config: ", pollIntervalString);
     const job = schedule.scheduleJob(pollIntervalString, async () => await cronHandler.pollForMaturedDataCall());
+    logger.info("job scheduling done  ", job);
     let dbManager = await dbManagerFactoryObject.getInstance(JSON.parse(process.env.OFF_CHAIN_DB_CONFIG));
     let listenerConfig = {};
     let listernerChannels = new Array();
