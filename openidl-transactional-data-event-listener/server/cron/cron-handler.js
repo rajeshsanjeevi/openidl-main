@@ -8,7 +8,7 @@ const matureEventHandler = require('../matureEvent/matureEvent');
 logger.level = config.logLevel;
 
 const targetChannelConfig = require('../config/target-channel-config');
-// const kvsConfig = require('../config/local-kvs-config.json');
+const kvsConfig = require('../config/local-kvs-config.json');
 const networkConfig = require('../config/connection-profile.json');
 const {
     Transaction
